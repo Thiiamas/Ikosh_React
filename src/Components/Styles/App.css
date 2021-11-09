@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora&display=swap');
+
+* {
+  font-family: 'Sora', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.MainDiv{
+  margin: 25px 25% 0 25%;
+  border: 1px solid blue;
+  border-radius: 5px;
+  
+}

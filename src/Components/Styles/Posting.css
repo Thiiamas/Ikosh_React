@@ -1,0 +1,14 @@
+.PostingMain{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.PostingMain > *{
+    margin: 10px;
+}
+
+.BtnPost{
+    display: flex;
+    justify-content: center;
+}
