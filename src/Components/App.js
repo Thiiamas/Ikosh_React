@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <Router>
         <NavBar />
-        <div className="MainDiv">
+        <div className="MainDiv bg-indigo-200">
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/post" exact component={Posting} />

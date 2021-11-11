@@ -2,7 +2,7 @@ import '../Styles/Posting.css'
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import React, { useRef } from 'react'
-import Select from 'react-select'
+//import Select from 'react-select'
 import {Button} from '../Styles/Button.style'
 
 const Posting = () => {
@@ -29,6 +29,20 @@ const Posting = () => {
         
     }
 
+    const onClickPost = (event) => {
+        fetch('/api/test/post', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            media: media,
+            text: data,
+        })
+        })
+    }
+
     //Test to see value on MediaSelector
     const onSelectChange = (e) =>{
         media = []
@@ -48,7 +62,7 @@ const Posting = () => {
     return (
         <div className='PostingMain'>
                    <div className='SocialMediaSelector' >
-                       <Select options={options} isMulti='true' onChange={onSelectChange}/>
+                       {/*<Select options={options} isMulti='true' onChange={onSelectChange}/>*/}
                    </div>
                    <div>
                    <CKEditor
@@ -62,7 +76,7 @@ const Posting = () => {
                        <input type='file' id='file' ref={inputFile} onChange={onFileChange}/>
                    </div>
                    <div className="BtnPost">
-                       <Button backgroundColor='blue' onClick={onClickTest}>Post</Button>
+                       <Button backgroundColor='blue' onClick={onClickPost}>Post</Button>
                    </div>
         </div>
     )
