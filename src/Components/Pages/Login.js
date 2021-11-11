@@ -1,6 +1,4 @@
-import { FaHandHoldingMedical } from 'react-icons/fa'
-import React, { useRef,useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useRef } from 'react'
 
 
 const Login = () =>{
@@ -39,9 +37,11 @@ const Login = () =>{
                 focus:shadow-outline" type="button">
                     Sign In
                 </button>
+                {/*eslint-disable-next-line jsx-a11y/anchor-is-valid*/ }
                 <a class="mr-2 inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
                     Forgot Password?
                 </a>
+                {/*eslint-disable-next-line jsx-a11y/anchor-has-content*/ }
                 <a  style={{visibility:'hidden'}} href="/signup" ref={hiddenLinkRef}/>
                 <button to='/signup' class="mr-2 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none 
                 focus:shadow-outline" type="button" onClick={onSignUp}>

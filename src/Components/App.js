@@ -2,7 +2,6 @@ import "./Styles/App.css";
 import NavBar from "./NavBar";
 import Posting from "./Pages/Posting";
 import Login from './Pages/Login'
-import Home from "./Pages/Home";
 import Signup from "./Pages/Signup"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -13,7 +12,7 @@ function App() {
       <Router>
         <NavBar className='text-gray-700'/>
         <Switch>
-          <Route path="/" exact component={Home} />
+          <Route path="/" exact component={Login} />
           <Route path="/post" exact component={Posting} />
           <Route path="/signin" exact component={Login} />
           <Route path="/signup" exact component={Signup} />

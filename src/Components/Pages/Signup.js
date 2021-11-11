@@ -1,9 +1,6 @@
-import { FaHandHoldingMedical } from 'react-icons/fa'
-import React, { useRef, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { } from 'react'
 
 const Signup = () => {
-  let [isOpen, setIsOpen] = useState(true)
 
   return (
     <form className="MainDiv bg-indigo-200 flex content-center flex-col justify-around shadow-lg

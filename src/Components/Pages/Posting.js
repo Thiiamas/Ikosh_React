@@ -1,7 +1,6 @@
 import '../Styles/Posting.css'
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import Textarea from 'react-expanding-textarea'
 import React, { useRef,useState } from 'react'
 import Select from 'react-select'
 import {Button} from '../Styles/Button.style'
@@ -12,7 +11,6 @@ const Posting = () => {
     const [inputFile, setInputFile] = useState(null)
 
     const hiddentInputRef = useRef(null)
-    const textareaRef = useRef(null)
     //var inputFile = null;
     let media = []
     let data
@@ -29,17 +27,6 @@ const Posting = () => {
     }
 
     //basic call APi, need to be post with payload
-    const onClickTest = (e) =>{
-        media.map(x => 
-            {
-                fetch('/api/test/' + x + '?text='+data)
-                .then(response => response.json())
-                .then(data => console.log(data));
-            })
-        
-        
-    }
-
     const onClickPost = (event) => {
         fetch('/api/test/post', {
         method: 'POST',
@@ -48,7 +35,7 @@ const Posting = () => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            media: media,
+            media: selectedMedia,
             text: data,
         })
         })
@@ -71,10 +58,6 @@ const Posting = () => {
         
         console.log("input file : ")
         console.log(inputFile)
-    }
-
-    const handleTextAreaChange = () =>{
-
     }
     
     return (
@@ -111,12 +94,12 @@ const Posting = () => {
             <div className="FileUploader mx-10 ">
                 <input className="hidden" type='file' id='file' ref={hiddentInputRef} onChange={onFileChange}/>
                 <button className="shadow-lg bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" 
-                backgroundColor='blue' onClick={handleInputClick}>Add file</button>
+                 onClick={handleInputClick}>Add file</button>
                 {/* Comment aficher le nom de inputFile ?*/}
                 <span>{inputFile !== null ? "File : " +inputFile.name : ''}</span>
             </div>
             <div className="shadow-lg mx-auto">
-                <Button backgroundColor='blue' onClick={onClickPost}>Post</Button>
+                <Button onClick={onClickPost}>Post</Button>
             </div>
         </div>
     )
