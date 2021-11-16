@@ -5,7 +5,7 @@ import React, { useRef,useState } from 'react'
 import Select from 'react-select'
 import {Button} from '../Styles/Button.style'
 
-const Posting = () => {
+const Posting = (props) => {
 
     const [selectedMedia, setSelectedMedia] = useState(null)
     const [inputFile, setInputFile] = useState(null)
@@ -59,6 +59,10 @@ const Posting = () => {
         console.log("input file : ")
         console.log(inputFile)
     }
+
+    const onClickTest = (event) => {
+        console.log(props.sessionId)
+    }
     
     return (
         <div className="MainDiv bg-indigo-200 flex content-center flex-col justify-around shadow-lg
@@ -85,7 +89,7 @@ const Posting = () => {
                 editor ={ClassicEditor}
                 config={{         
                     toolbar: []
-                  }} 
+                }} 
                 onChange={ ( event, editor) => {
                 data = editor.getData();
                     console.log({event, editor, data});
@@ -94,12 +98,14 @@ const Posting = () => {
             <div className="FileUploader mx-10 ">
                 <input className="hidden" type='file' id='file' ref={hiddentInputRef} onChange={onFileChange}/>
                 <button className="shadow-lg bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" 
-                 onClick={handleInputClick}>Add file</button>
+                onClick={handleInputClick}>Add file</button>
                 {/* Comment aficher le nom de inputFile ?*/}
                 <span>{inputFile !== null ? "File : " +inputFile.name : ''}</span>
             </div>
             <div className="shadow-lg mx-auto">
                 <Button onClick={onClickPost}>Post</Button>
+
+                <Button onClick={onClickTest}>test</Button>
             </div>
         </div>
     )

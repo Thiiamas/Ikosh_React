@@ -1,16 +1,61 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
+import { useHistory } from 'react-router'
 
 
-const Login = () =>{
+const Login = ({setSessionId,}) =>{
+
+    const history = useHistory()
+
+    const [userName, setUsername] = useState(null)
+    const [password, setPassword] = useState(null)
+
+    const [wrongUsername, setWrongUsername] = useState(false)
 
     const hiddenLinkRef = useRef(null)
+
     const onSignUp = () =>{
         hiddenLinkRef.current.click()
     }
 
+    const onInputChange = (e) =>{
+        switch (e.target.id){
+            case "username":
+                setUsername(e.target.value);
+                break;
+            case "password":
+                setPassword(e.target.value)
+                break;
+            default:
+                console.log("wrong id")
+        }
+    }
+
+    const onLogin = () => {
+        console.log("fetch signin with username = "+userName+" password = "+password)
+        fetch('/api/auth/signin', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            } ,
+            body:JSON.stringify({
+                username: userName,
+                password: password
+            })
+        }).then((response) => {
+            response.json().then( json => {
+                if (response.ok){
+                    //setSessionId("1")
+                    history.push('/post')
+                }
+                console.log(json)
+            })
+        })
+    }
+
     return(
-        <form className="MainDiv bg-indigo-200 flex content-center flex-col justify-around shadow-lg
-        max-w-2xl mx-auto mt-10 h-2/5 border-solid rounded-lg border-4 border-indigo-200">
+        <form className="MainDiv bg-indigo-200 flex flex-shrink content-center flex-col justify-around shadow-lg
+        max-w-2xl mx-auto mt-10 h-3/5 border-solid rounded-lg border-4 border-indigo-200">
             <div className='text-gray-700 text-5xl m-8 '>
                 <span className=''  >Sign In</span>
             </div>
@@ -19,9 +64,8 @@ const Login = () =>{
                     Username
                 </label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-            id="username" type="text" placeholder="Username">
-
-                </input>
+            id="username" type="text" placeholder="Username" onChange={onInputChange}/>
+                <p class="text-red-500 text-xs italic" style={wrongUsername ? {visibility:'visible'} : {visibility:'hidden'}}>Wrong username or password</p>
             </div>
             <div class="mb-4 mr-64 ml-8">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
@@ -29,12 +73,12 @@ const Login = () =>{
                 </label>
                 <input class="shadow appearance-none border border rounded w-full py-2 px-3 text-gray-700 mb-3 
                 leading-tight focus:outline-none focus:shadow-outline" 
-                id="password" type="password" placeholder="******************"/>
+                id="password" type="password" placeholder="******************" onChange={onInputChange}/>
                 {/*<p class="text-red-500 text-xs italic">Please choose a password.</p>*/}
             </div>
             <div class="flex items-center justify-start mx-8 mb-6">
                 <button class="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none 
-                focus:shadow-outline" type="button">
+                focus:shadow-outline" type="button" onClick={onLogin}>
                     Sign In
                 </button>
                 {/*eslint-disable-next-line jsx-a11y/anchor-is-valid*/ }
