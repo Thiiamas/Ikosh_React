@@ -1,13 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useHistory } from 'react-router'
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
-
-import { isEmail } from "validator";
 
 import AuthService from '../../services/auth-service';
-import { tsConstructorType } from '@babel/types';
 
 
 const Login = ({setSessionId,}) =>{
