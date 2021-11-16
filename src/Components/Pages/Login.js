@@ -1,15 +1,35 @@
 import React, { useRef, useState } from 'react'
 import { useHistory } from 'react-router'
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
+
+import { isEmail } from "validator";
+
+import AuthService from '../../services/auth-service';
+import { tsConstructorType } from '@babel/types';
 
 
 const Login = ({setSessionId,}) =>{
 
+    
     const history = useHistory()
 
     const [userName, setUsername] = useState(null)
     const [password, setPassword] = useState(null)
-
+    const [loading, setLoading] = useState(false)
+    const [message, setMessage] = useState(null)
     const [wrongUsername, setWrongUsername] = useState(false)
+
+    const required = value => {
+        if (!value){
+            return (
+                <div className="" role ="alert">
+                    This field is required
+                </div>
+            )
+        }
+    }
 
     const hiddenLinkRef = useRef(null)
 
@@ -32,7 +52,18 @@ const Login = ({setSessionId,}) =>{
 
     const onLogin = () => {
         console.log("fetch signin with username = "+userName+" password = "+password)
-        fetch('/api/auth/signin', {
+        AuthService.login(userName, password).then(
+            () => {
+                history.push("/post")
+                window.location.reload()
+            }, error => {
+                const resMessage = ( error.response && error.response.data && error.response.data.message ) 
+                || error.message || error.toString();
+                setLoading(false)
+                setMessage(resMessage)
+            }
+        )
+       /*fetch('/api/auth/signin', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -51,11 +82,12 @@ const Login = ({setSessionId,}) =>{
                 console.log(json)
             })
         })
+        */
     }
 
     return(
         <form className="MainDiv bg-indigo-200 flex flex-shrink content-center flex-col justify-around shadow-lg
-        max-w-2xl mx-auto mt-10 h-3/5 border-solid rounded-lg border-4 border-indigo-200">
+        max-w-2xl mx-auto mt-10 h-3/5 border-solid rounded-lg border-4 border-indigo-200" >
             <div className='text-gray-700 text-5xl m-8 '>
                 <span className=''  >Sign In</span>
             </div>
@@ -93,6 +125,13 @@ const Login = ({setSessionId,}) =>{
                     Sign Up
                 </button>
             </div>
+            {message && (
+              <div className="form-group">
+                <div className="alert alert-danger" role="alert">
+                  {message}
+                </div>
+              </div>
+            )}
         </form>
         
     )
