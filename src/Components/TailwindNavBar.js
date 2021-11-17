@@ -1,5 +1,6 @@
 import { useLocation } from "react-router";
 import authService from "../services/auth-service";
+import { NavBarBTn } from "./Widget/NavBarWidget";
 const TailWindNavBar = ({ currentUser }) => {
   const currentLocation = useLocation();
   console.log(currentUser);
@@ -74,75 +75,33 @@ const TailWindNavBar = ({ currentUser }) => {
             </div>
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
-                {currentLocation.pathname === "/home" ? (
-                  <a
-                    href="/home"
-                    className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
-                    aria-current="page"
-                  >
-                    Home
-                  </a>
-                ) : (
-                  <a
-                    href="/home"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                    aria-current="page"
-                  >
-                    Home
-                  </a>
-                )}
+                <NavBarBTn
+                  currentLocation={currentLocation}
+                  name="Home"
+                  path="/home"
+                />
 
-                {currentLocation.pathname === "/post" ? (
-                  <a
-                    href="/post"
-                    className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Post
-                  </a>
-                ) : (
-                  <a
-                    href="/post"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Post
-                  </a>
-                )}
+                <NavBarBTn
+                  currentLocation={currentLocation}
+                  name="Post"
+                  path="/post"
+                />
 
-                {currentLocation.pathname === "/profile" ? (
-                  <a
-                    href="/profile"
-                    className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Profile
-                  </a>
-                ) : (
-                  <a
-                    href="/profile"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Profile
-                  </a>
-                )}
-
-                <a
-                  href="/calendar"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Calendar
-                </a>
+                <NavBarBTn
+                  currentLocation={currentLocation}
+                  name="Profile"
+                  path="/profile"
+                />
               </div>
             </div>
           </div>
           {/* right part */}
           {!currentUser && (
-            <div>
-              <a
-                href="/signin"
-                className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-500"
-              >
-                Login
-              </a>
-            </div>
+            <NavBarBTn
+              currentLocation={currentLocation}
+              name="Login"
+              path="/signin"
+            />
           )}
           {currentUser && (
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
