@@ -1,76 +1,79 @@
-import '../Styles/Posting.css'
-import {CKEditor} from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import React, { useRef,useState } from 'react'
-import Select from 'react-select'
-import {Button} from '../Styles/Button.style'
+import "../Styles/Posting.css";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import React, { useRef, useState } from "react";
+import Select from "react-select";
+import { Button } from "../Styles/Button.style";
 
-const Posting = () => {
+const Posting = (props) => {
+  const [selectedMedia, setSelectedMedia] = useState(null);
+  const [inputFile, setInputFile] = useState(null);
 
-    const [selectedMedia, setSelectedMedia] = useState(null)
-    const [inputFile, setInputFile] = useState(null)
+  const hiddentInputRef = useRef(null);
+  //var inputFile = null;
+  let media = [];
+  let data;
+  const options = [
+    { value: "swame", label: "Swame" },
+    { value: "fansly", label: "Fansly" },
+    { value: "mym", label: "Mym" },
+  ];
 
-    const hiddentInputRef = useRef(null)
-    //var inputFile = null;
-    let media = []
-    let data
-    const options = [
-        {value: 'swame', label: 'Swame'},
-        {value: 'fansly', label: 'Fansly'},
-        {value: 'mym', label: 'Mym'}
-    ]
-    
+  //handle click on input button
+  const handleInputClick = (event) => {
+    hiddentInputRef.current.click();
+  };
 
-    //handle click on input button
-    const handleInputClick = (event) =>{
-        hiddentInputRef.current.click();
-    }
+  //basic call APi, need to be post with payload
+  const onClickPost = (event) => {
+    fetch("/api/test/post", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        media: selectedMedia,
+        text: data,
+      }),
+    });
+  };
 
-    //basic call APi, need to be post with payload
-    const onClickPost = (event) => {
-        fetch('/api/test/post', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            media: selectedMedia,
-            text: data,
-        })
-        })
-    }
+  //Test to see value on MediaSelector
+  const onSelectChange = (e) => {
+    media = [];
+    e.map((x) => media.push(x.value));
+    setSelectedMedia(media);
+  };
 
-    //Test to see value on MediaSelector
-    const onSelectChange = (e) =>{
-        media = []
-        e.map(x => media.push(x.value))
-        setSelectedMedia(media)
-    }
+  //test to see how i can handle file later
+  const onFileChange = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    var file = event.target.files[0];
+    setInputFile(file);
 
+    console.log("input file : ");
+    console.log(inputFile);
+  };
 
-    //test to see how i can handle file later
-    const onFileChange = (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        var file = event.target.files[0]
-        setInputFile(file);
-        
-        console.log("input file : ")
-        console.log(inputFile)
-    }
-    
-    return (
-        <div className="MainDiv bg-indigo-200 flex content-center flex-col justify-around shadow-lg
-                        max-w-2xl mx-auto mt-10 h-4/6 border-solid rounded-lg border-4 border-indigo-200">
-            <div className='text-gray-700 text-5xl m-8 '>
-                <span className=''  >Publish Everywhere</span>
-            </div>
-            <div className='SocialMediaSelector mx-10 shadow-lg' >
-                <Select  options={options} isMulti='true' onChange={onSelectChange}/>
-            </div>
-            <div className="mx-10 shadow-lg">
-            {/*<Textarea
+  const onClickTest = (event) => {
+    console.log(props.sessionId);
+  };
+
+  return (
+    <div
+      className="MainDiv bg-indigo-200 flex content-center flex-col justify-around shadow-lg
+                        max-w-2xl mx-auto mt-10 h-4/6 border-solid rounded-lg border-4 border-indigo-200"
+    >
+      <div className="text-gray-700 text-5xl m-8 ">
+        <span className="">Publish Everywhere</span>
+      </div>
+      <div className="SocialMediaSelector mx-10 shadow-lg">
+        <Select options={options} isMulti="true" onChange={onSelectChange} />
+      </div>
+      <div className="mx-10 shadow-lg">
+        {/*<Textarea
                 className="textarea"
                 defaultValue="Lorem ipsum dolor sit amet, ..."
                 id="my-textarea"
@@ -81,28 +84,41 @@ const Posting = () => {
                 placeholder="Enter text here..."
                 ref={textareaRef}
       />*/}
-                <CKEditor 
-                editor ={ClassicEditor}
-                config={{         
-                    toolbar: []
-                  }} 
-                onChange={ ( event, editor) => {
-                data = editor.getData();
-                    console.log({event, editor, data});
-                } }/>
-        </div>
-            <div className="FileUploader mx-10 ">
-                <input className="hidden" type='file' id='file' ref={hiddentInputRef} onChange={onFileChange}/>
-                <button className="shadow-lg bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" 
-                 onClick={handleInputClick}>Add file</button>
-                {/* Comment aficher le nom de inputFile ?*/}
-                <span>{inputFile !== null ? "File : " +inputFile.name : ''}</span>
-            </div>
-            <div className="shadow-lg mx-auto">
-                <Button onClick={onClickPost}>Post</Button>
-            </div>
-        </div>
-    )
-}
+        <CKEditor
+          editor={ClassicEditor}
+          config={{
+            toolbar: [],
+          }}
+          onChange={(event, editor) => {
+            data = editor.getData();
+            console.log({ event, editor, data });
+          }}
+        />
+      </div>
+      <div className="FileUploader mx-10 ">
+        <input
+          className="hidden"
+          type="file"
+          id="file"
+          ref={hiddentInputRef}
+          onChange={onFileChange}
+        />
+        <button
+          className="shadow-lg bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+          onClick={handleInputClick}
+        >
+          Add file
+        </button>
+        {/* Comment aficher le nom de inputFile ?*/}
+        <span>{inputFile !== null ? "File : " + inputFile.name : ""}</span>
+      </div>
+      <div className="shadow-lg mx-auto">
+        <Button onClick={onClickPost}>Post</Button>
+
+        <Button onClick={onClickTest}>test</Button>
+      </div>
+    </div>
+  );
+};
 
 export default Posting;
