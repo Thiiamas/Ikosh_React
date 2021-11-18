@@ -18,6 +18,8 @@ class UserService {
   getAdminBoard() {
     return axios.get(API_URL + "admin", { headers: authHeader() });
   }
+
+  updateFansites() {}
 }
 
 export default new UserService();

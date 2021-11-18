@@ -3,7 +3,6 @@ import authService from "../services/auth-service";
 import { NavBarBTn } from "./Widget/NavBarWidget";
 const TailWindNavBar = ({ currentUser }) => {
   const currentLocation = useLocation();
-  console.log(currentUser);
   const onLogout = () => {
     authService.logout();
     window.location.reload();
@@ -91,6 +90,21 @@ const TailWindNavBar = ({ currentUser }) => {
                   currentLocation={currentLocation}
                   name="Profile"
                   path="/profile"
+                />
+                <NavBarBTn
+                  currentLocation={currentLocation}
+                  name="UserBoard"
+                  path="/userBoard"
+                />
+                <NavBarBTn
+                  currentLocation={currentLocation}
+                  name="AdminBoard"
+                  path="/adminboard"
+                />
+                <NavBarBTn
+                  currentLocation={currentLocation}
+                  name="FanSites"
+                  path="/fansites"
                 />
               </div>
             </div>

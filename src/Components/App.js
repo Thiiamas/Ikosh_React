@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import Posting from "./Pages/Posting";
 import Login from "./Pages/Login";
 import Profile from "./Pages/Profile";
+import Fansites from "./Pages/Fansites";
 import Signup from "./Pages/Signup";
 import {
   BrowserRouter as Router,
@@ -13,6 +14,8 @@ import {
 } from "react-router-dom";
 import AuthService from "../services/auth-service";
 import TailWindNavBar from "./TailwindNavBar";
+import UserContent from "./TestPages/user-content";
+import AdminContent from "./TestPages/admin-content";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser);
@@ -38,6 +41,21 @@ function App() {
             path="/profile"
             exact
             component={() => <Profile currentUser={currentUser} />}
+          />
+          <Route
+            path="/userBoard"
+            exact
+            component={() => <UserContent currentUser={currentUser} />}
+          />
+          <Route
+            path="/adminboard"
+            exact
+            component={() => <AdminContent currentUser={currentUser} />}
+          />
+          <Route
+            path="/fansites"
+            exact
+            component={() => <Fansites currentUser={currentUser} />}
           />
         </Switch>
       </Router>
